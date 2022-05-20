@@ -1,0 +1,23 @@
+server:
+  port: 7000
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.60.130:3306/gmall_product?useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+
+
+#classpath*:/mapper/**/*.xml 就是mybatis-plus 默认的配置地址
+#mybatis-plus:
+#  mapper-locations: classpath*:/mapper/**/*.xml
+
+app:
+  minio:
+    endpoint: http://192.168.60.130:9000
+    accessKey: admin
+    secretKey: admin123456
+    bucket: gmall
