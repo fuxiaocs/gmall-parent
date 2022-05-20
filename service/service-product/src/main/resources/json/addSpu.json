@@ -1,0 +1,79 @@
+{
+  "id": null,
+  "spuName": "Apple iPhone 13 (A2634)",
+  "description": "品牌： Apple\n商品名称：AppleiPhone 13商品编号：100026667858商品毛重：320.00g商品产地：中国大陆运行内存：其他分辨率：其他充电器：其他机身内存：128GB系统：iOS支持IPv6：支持IPv6",
+  "category3Id": 61,
+  "spuImageList": [
+    {
+      "imgName": "3.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/6846bbe4540f45d7a972f1b63acf86bc_3.png"
+    },
+    {
+      "imgName": "1.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/739023541f8d46298854cd50148784c7_1.png"
+    },
+    {
+      "imgName": "5.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/17251c6833ed4a2d89ec493ff7e2123f_5.png"
+    },
+    {
+      "imgName": "2.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/1282976cad9b4900bcf415375264842e_2.png"
+    },
+    {
+      "imgName": "4.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/a2d3999221b24907adab6c00076a92a8_4.png"
+    },
+    {
+      "imgName": "5.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/47e6c936f139411fac1e5a209a0969e7_5.png"
+    },
+    {
+      "imgName": "1.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/87ac9e18e0c44f7fb1e49b53572020c0_1.png"
+    },
+    {
+      "imgName": "4.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/4ee39407fca54ef8a2b8a5d41e8cd1a8_4.png"
+    },
+    {
+      "imgName": "2.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/60ae51ceb1224830b2ac7085df1b9942_2.png"
+    },
+    {
+      "imgName": "3.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/7d27b27d6acc4c09a27641fe8988c566_3.png"
+    }
+  ],
+  "spuSaleAttrList": [
+    {
+      "baseSaleAttrId": "1",
+      "saleAttrName": "选择颜色",
+      "spuSaleAttrValueList": [
+        {
+          "baseSaleAttrId": "1",
+          "saleAttrValueName": "白色"
+        },
+        {
+          "baseSaleAttrId": "1",
+          "saleAttrValueName": "黑色"
+        }
+      ]
+    },
+    {
+      "baseSaleAttrId": "2",
+      "saleAttrName": "选择版本",
+      "spuSaleAttrValueList": [
+        {
+          "baseSaleAttrId": "2",
+          "saleAttrValueName": "8+256"
+        },
+        {
+          "baseSaleAttrId": "2",
+          "saleAttrValueName": "12+512"
+        }
+      ]
+    }
+  ],
+  "tmId": 12
+}

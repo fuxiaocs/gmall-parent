@@ -1,0 +1,87 @@
+{
+  "id": null,
+  "spuId": 28,
+  "price": "5999",
+  "skuName": "Apple iPhone 13 (A2634) 128GB 星光色 支持移动联通电信5G 双卡双待手机",
+  "weight": "1",
+  "skuDesc": "128GB 星光色 支持移动联通电信5G 双卡双待手机",
+  "category3Id": 61,
+  "skuAttrValueList": [
+    {
+      "attrId": "1",
+      "valueId": "6"
+    },
+    {
+      "attrId": "2",
+      "valueId": "8"
+    },
+    {
+      "attrId": "3",
+      "valueId": "19"
+    },
+    {
+      "attrId": "4",
+      "valueId": "26"
+    },
+    {
+      "attrId": "5",
+      "valueId": "34"
+    },
+    {
+      "attrId": "7",
+      "valueId": "52"
+    },
+    {
+      "attrId": "11",
+      "valueId": "107"
+    }
+  ],
+  "skuSaleAttrValueList": [
+    {
+      "saleAttrValueId": "119",
+      "saleAttrValueName": "白色",
+      "baseSaleAttrId": "1",
+      "saleAttrName": "选择颜色"
+    },
+    {
+      "saleAttrValueId": "120",
+      "saleAttrValueName": "8+256",
+      "baseSaleAttrId": "2",
+      "saleAttrName": "选择版本"
+    }
+  ],
+  "skuImageList": [
+    {
+      "spuImgId": 284,
+      "imgName": "3.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/248ed8aa25014a9f9716d591abbd2de1_3.png",
+      "isDefault": 1
+    },
+    {
+      "spuImgId": 285,
+      "imgName": "2.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/d88f057426c94455ae8be1afcdc7035a_2.png",
+      "isDefault": 0
+    },
+    {
+      "spuImgId": 286,
+      "imgName": "4.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/9478e82dab804e65a673e47195f060ee_4.png",
+      "isDefault": 0
+    },
+    {
+      "spuImgId": 287,
+      "imgName": "1.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/f53c352abd8f48f592bc2b7e6191cbd2_1.png",
+      "isDefault": 0
+    },
+    {
+      "spuImgId": 288,
+      "imgName": "5.png",
+      "imgUrl": "http://192.168.60.130:9000/gmall/b258afb55cc9499a84a9da5f7f5c4704_5.png",
+      "isDefault": 0
+    }
+  ],
+  "skuDefaultImg": "http://192.168.60.130:9000/gmall/248ed8aa25014a9f9716d591abbd2de1_3.png",
+  "tmId": 12
+}

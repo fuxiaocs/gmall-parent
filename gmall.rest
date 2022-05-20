@@ -1,0 +1,5 @@
+### Get request with a header
+GET http://localhost/admin/product/getCategory1
+Accept: application/json
+
+###

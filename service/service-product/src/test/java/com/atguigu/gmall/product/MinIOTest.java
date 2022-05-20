@@ -1,12 +1,20 @@
 package com.atguigu.gmall.product;
 
+import com.atguigu.gmall.model.product.SkuInfo;
+import com.atguigu.gmall.product.mapper.SkuInfoMapper;
 import io.minio.MinioClient;
 import io.minio.PutObjectOptions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.FileInputStream;
 
+@SpringBootTest
 public class MinIOTest {
+
+    @Autowired
+    SkuInfoMapper skuInfoMapper;
 
     @Test
     public void fileUp(){
@@ -35,5 +43,14 @@ public class MinIOTest {
         } catch(Exception e) {
             System.out.println("Error occurred: " + e);
         }
+    }
+
+    @Test
+    public void test01(){
+        SkuInfo skuInfo = new SkuInfo();
+        skuInfo.setId(50L);
+        skuInfo.setIsSale(1);
+        skuInfoMapper.updateById(skuInfo);
+
     }
 }
