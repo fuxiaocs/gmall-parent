@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.gmall.product.mapper.CategoryMapper">
+
+    <resultMap id="categoryAndChildMap" type="com.atguigu.gmall.model.to.CategoryAndChild">
+        <id property="categoryId" column="category1_id"/>
+        <result property="categoryName" column="category1_name"/>
+        <collection property="categoryChild"
+                    ofType="com.atguigu.gmall.model.to.CategoryAndChild">
+            <result property="categoryId" column="category2_id"/>
+            <result property="categoryName" column="category2_name"/>
+            <collection property="categoryChild"
+                        ofType="com.atguigu.gmall.model.to.CategoryAndChild">
+                <result property="categoryId" column="category3_id"/>
+                <result property="categoryName" column="category3_name"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="selectAllCategoryAndChild" resultMap="categoryAndChildMap">
+        select * from base_category_view
+    </select>
+
+</mapper>

@@ -15,6 +15,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>service-product</module>
+        <module>web-all</module>
     </modules>
 
     <dependencies>
