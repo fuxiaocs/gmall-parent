@@ -1,5 +1,6 @@
 package com.atguigu.gmall.product.service.impl;
 
+import com.atguigu.gmall.model.product.BaseCategoryView;
 import com.atguigu.gmall.model.to.CategoryAndChild;
 import com.atguigu.gmall.product.mapper.CategoryMapper;
 import com.atguigu.gmall.product.service.CategoryService;
@@ -22,5 +23,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryAnd
     @Override
     public List<CategoryAndChild> getAllCategoryAndChild() {
         return categoryMapper.selectAllCategoryAndChild();
+    }
+
+    /**
+     * 根据 skuId 获取分类层级
+     * @param skuId
+     * @return
+     */
+    @Override
+    public BaseCategoryView getBaseCategoryViewBySkuId(Long skuId) {
+        return categoryMapper.selectBaseCategoryViewBySkuId(skuId);
     }
 }

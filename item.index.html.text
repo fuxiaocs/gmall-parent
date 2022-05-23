@@ -1,0 +1,21 @@
+categoryView.category1Id categoryView.category1Name
+                     2   categoryView.category2Name
+                     3   categoryView.category3Name
+----------BaseCategoryView
+
+skuInfo.skuName
+skuInfo.id
+skuInfo.skuDefaultImg
+skuInfo.skuImageList
+    skuImage.imgUrl
+skuInfo.skuName
+skuInfo.weight
+skuInfo.spuId
+-------SkuInfo
+
+price
+
+spuSaleAttrList
+--------SpuSaleAttr
+
+valuesSkuJson

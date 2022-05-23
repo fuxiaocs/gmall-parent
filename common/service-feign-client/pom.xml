@@ -3,27 +3,26 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>service</artifactId>
+        <artifactId>common</artifactId>
         <groupId>com.atguigu</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>web-all</artifactId>
-    <description>所有页面资源</description>
+    <artifactId>service-feign-client</artifactId>
 
-    <!-- thymeleaf-->
+    <description>feign 工具类</description>
+
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>2.6.7</version>
+            <groupId>com.atguigu</groupId>
+            <artifactId>common-util</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>com.atguigu</groupId>
-            <artifactId>service-feign-client</artifactId>
+            <artifactId>model</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>
-
 </project>

@@ -9,21 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>web-all</artifactId>
-    <description>所有页面资源</description>
+    <artifactId>service-item</artifactId>
+    <description>商品详情服务</description>
 
-    <!-- thymeleaf-->
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>2.6.7</version>
-        </dependency>
         <dependency>
             <groupId>com.atguigu</groupId>
             <artifactId>service-feign-client</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>
-
 </project>

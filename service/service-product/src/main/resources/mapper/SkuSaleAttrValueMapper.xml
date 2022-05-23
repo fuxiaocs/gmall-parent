@@ -15,4 +15,16 @@
         id,sku_id,spu_id,
         sale_attr_value_id
     </sql>
+
+    <select id="selectValuesSkuJsonBySkuId" resultType="com.atguigu.gmall.product.to.ValueJsonTo">
+        SELECT GROUP_CONCAT(
+        DISTINCT ssav.sale_attr_value_id
+        ORDER BY ssav.sale_attr_value_id
+        SEPARATOR '|') value_json,ssav.sku_id id FROM sku_info si
+        LEFT JOIN sku_sale_attr_value ssav ON si.id = ssav.sku_id AND si.spu_id = ssav.spu_id
+        WHERE ssav.spu_id = (
+        SELECT spu_id FROM sku_info WHERE id = #{skuId}
+        )
+        GROUP BY ssav.sku_id
+    </select>
 </mapper>

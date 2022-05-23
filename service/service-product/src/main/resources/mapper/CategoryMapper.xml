@@ -22,5 +22,10 @@
     <select id="selectAllCategoryAndChild" resultMap="categoryAndChildMap">
         select * from base_category_view
     </select>
+    <select id="selectBaseCategoryViewBySkuId" resultType="com.atguigu.gmall.model.product.BaseCategoryView">
+        SELECT bcv.* FROM sku_info si
+        LEFT JOIN base_category_view bcv
+        ON si.category3_id = bcv.category3_id WHERE si.id = #{skuId}
+    </select>
 
 </mapper>

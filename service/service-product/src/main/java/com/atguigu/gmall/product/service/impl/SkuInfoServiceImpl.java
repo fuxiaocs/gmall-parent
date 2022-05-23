@@ -1,9 +1,6 @@
 package com.atguigu.gmall.product.service.impl;
 
-import com.atguigu.gmall.model.product.SkuAttrValue;
-import com.atguigu.gmall.model.product.SkuImage;
-import com.atguigu.gmall.model.product.SkuInfo;
-import com.atguigu.gmall.model.product.SkuSaleAttrValue;
+import com.atguigu.gmall.model.product.*;
 import com.atguigu.gmall.product.service.SkuAttrValueService;
 import com.atguigu.gmall.product.service.SkuImageService;
 import com.atguigu.gmall.product.service.SkuSaleAttrValueService;
@@ -14,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -83,6 +81,36 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         skuInfoMapper.updateById(skuInfo);
 
         //todo 给ES ,保存/删除数据
+    }
+
+    /**
+     * 根据 skuId 获取SkuInfo信息 包括图片集合
+     * @param skuId
+     * @return
+     */
+    @Override
+    public SkuInfo getSkuInfoBySkuId(Long skuId) {
+        return skuInfoMapper.selectSkuInfoBySkuId(skuId);
+    }
+
+    /**
+     * 根据 skuId 查询sku价格
+     * @param skuId
+     * @return
+     */
+    @Override
+    public BigDecimal getSkuPriceBySkuId(Long skuId) {
+        return skuInfoMapper.selectSkuPriceBySkuId(skuId);
+    }
+
+    /**
+     * 根据 skuId 查询 spuSaleAttr集合信息
+     * @param skuId
+     * @return
+     */
+    @Override
+    public List<SpuSaleAttr> getSpuSaleAttrListBySkuId(Long skuId) {
+        return skuInfoMapper.selectSpuSaleAttrListBySkuId(skuId);
     }
 }
 

@@ -5,16 +5,38 @@
 <mapper namespace="com.atguigu.gmall.product.mapper.SkuInfoMapper">
 
     <resultMap id="BaseResultMap" type="com.atguigu.gmall.model.product.SkuInfo">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="spuId" column="spu_id" jdbcType="BIGINT"/>
-            <result property="price" column="price" jdbcType="DECIMAL"/>
-            <result property="skuName" column="sku_name" jdbcType="VARCHAR"/>
-            <result property="skuDesc" column="sku_desc" jdbcType="VARCHAR"/>
-            <result property="weight" column="weight" jdbcType="DECIMAL"/>
-            <result property="tmId" column="tm_id" jdbcType="BIGINT"/>
-            <result property="category3Id" column="category3_id" jdbcType="BIGINT"/>
-            <result property="skuDefaultImg" column="sku_default_img" jdbcType="VARCHAR"/>
-            <result property="isSale" column="is_sale" jdbcType="TINYINT"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="spuId" column="spu_id" jdbcType="BIGINT"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
+        <result property="skuName" column="sku_name" jdbcType="VARCHAR"/>
+        <result property="skuDesc" column="sku_desc" jdbcType="VARCHAR"/>
+        <result property="weight" column="weight" jdbcType="DECIMAL"/>
+        <result property="tmId" column="tm_id" jdbcType="BIGINT"/>
+        <result property="category3Id" column="category3_id" jdbcType="BIGINT"/>
+        <result property="skuDefaultImg" column="sku_default_img" jdbcType="VARCHAR"/>
+        <result property="isSale" column="is_sale" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <resultMap id="skuInfoMap"
+               type="com.atguigu.gmall.model.product.SkuInfo"
+               autoMapping="true">
+        <id property="id" column="id"/>
+        <collection property="skuImageList"
+                    ofType="com.atguigu.gmall.model.product.SkuImage"
+                    autoMapping="true">
+        </collection>
+    </resultMap>
+
+    <resultMap id="spuSaleAttrMap" type="com.atguigu.gmall.model.product.SpuSaleAttr">
+        <id property="id" column="id"/>
+        <result property="spuId" column="spu_id"/>
+        <result property="baseSaleAttrId" column="base_sale_attr_id"/>
+        <result property="saleAttrName" column="sale_attr_name"/>
+        <collection property="spuSaleAttrValueList"
+                    ofType="com.atguigu.gmall.model.product.SpuSaleAttrValue"
+                    autoMapping="true">
+            <id property="id" column="vid"/>
+        </collection>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -23,4 +45,23 @@
         tm_id,category3_id,sku_default_img,
         is_sale
     </sql>
+    <select id="selectSkuInfoBySkuId" resultMap="skuInfoMap">
+        SELECT si.*,sim.img_url FROM sku_info si
+        LEFT JOIN sku_image sim ON si.id = sim.sku_id
+        WHERE si.id = #{skuId}
+    </select>
+    <select id="selectSkuPriceBySkuId" resultType="java.math.BigDecimal">
+        select price from sku_info
+        where id = #{skuId}
+    </select>
+    <select id="selectSpuSaleAttrListBySkuId" resultMap="spuSaleAttrMap">
+        SELECT ssa.*,ssav.id vid,ssav.sale_attr_value_name,
+        IF(sku_sav.id,'1','0') is_checked
+        FROM sku_info si
+        LEFT JOIN spu_sale_attr ssa ON si.spu_id = ssa.spu_id
+        LEFT JOIN spu_sale_attr_value ssav ON  ssa.spu_id = ssav.spu_id AND ssa.base_sale_attr_id = ssav.base_sale_attr_id
+        LEFT JOIN sku_sale_attr_value sku_sav ON  sku_sav.sale_attr_value_id = ssav.id AND sku_sav.sku_id = si.id
+        WHERE si.id = #{skuId}
+        ORDER BY ssa.base_sale_attr_id,ssav.id
+    </select>
 </mapper>
