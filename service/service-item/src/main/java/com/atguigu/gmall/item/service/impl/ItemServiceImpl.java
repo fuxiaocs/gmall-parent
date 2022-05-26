@@ -13,7 +13,10 @@ import com.atguigu.gmall.model.to.ItemDetailedTo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBloomFilter;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -39,40 +42,112 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     RBloomFilter<Object> skuIdBloom;
 
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    RedissonClient redissonClient;
+
     /**
-     * 根据 skuId 查询数据 先看缓存 和 布隆过滤器
+     * 根据 skuId 获取 商品详情信息  先看缓存 和 布隆过滤器  +  redisson锁
      * @param skuId
      * @return
      */
     @Override
     public ItemDetailedTo getItemDetailed(Long skuId) {
-        //在缓存中的key
+        //数据在缓存中的键
         String skuCacheKey = CacheConstant.SKU_CACHE_KEY_PREFIX + skuId;
-        //查询缓存 是否有
-        ItemDetailedTo cacheData = redisCacheService.getCacheData(
+        //查询的数据类型
+        TypeReference<ItemDetailedTo> typeReference = new TypeReference<ItemDetailedTo>() {};
+        //先 查询缓存 看缓存是否存在数据
+        log.info("{} : 准备缓存查询数据" , skuCacheKey);
+        ItemDetailedTo itemDetailedTo = redisCacheService.getCacheData(
                 skuCacheKey,
-                new TypeReference<ItemDetailedTo>() {
-                });
-
-        if (ObjectUtils.isEmpty(cacheData)){ //查询缓存为空
-            log.info("{} : 缓存未命中,准备访问bloom",skuCacheKey);
-            //查询布隆 数据库是否存在 该skuId
-            if (skuIdBloom.contains(skuId)){ //布隆 觉得skuId存在
-                log.info("{} : bloom觉得这个skuId存在",skuId);
-                //去数据库查询
-                cacheData = this.getItemDetailedDb(skuId);
-                //存入缓存
-                redisCacheService.save(skuCacheKey,cacheData);
-            } else { //布隆 说不存在
-                log.info("{} : bloom觉得这个skuId不存在,直接返回null",skuId);
+                typeReference);
+        if (ObjectUtils.isEmpty(itemDetailedTo)){ //数据为空  缓存中不存在
+            log.info("{} : 缓存未命中" , skuCacheKey);
+            //询问 bloom 数据库中是否存在 该skuId
+            if (skuIdBloom.contains(skuId)) { // bloom 觉得存在 准备访问数据库
+                log.info("{} : Bloom觉得有,准备抢锁 查询数据库",skuId);
+                //添加 锁 只抢一次  抢到访问数据库  没抢到等1s 访问缓存 返回
+                //锁名
+                String lockName = CacheConstant.LOCK_SKU_PREFIX + skuId;
+                RLock lock = redissonClient.getLock(lockName);
+                //是否抢到锁
+                if (lock.tryLock()) { //抢到锁
+                    try {
+                        log.info("{} : 抢到锁,准备查询数据库" , skuId);
+                        //操作数据库
+                        itemDetailedTo = this.getItemDetailedDb(skuId);
+                        //将查询到的数据 存入 缓存
+                        redisCacheService.save(skuCacheKey,itemDetailedTo);
+                    } finally { // 释放锁
+                        try {
+                            lock.unlock();
+                        } catch (Exception e) {
+                            log.error("释放锁异常 : {}",e);
+                        }
+                    }
+                } else { //没有强到锁
+                    log.info("没有抢到锁,等待1s,在次查缓存");
+                    //睡 1s
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        log.error("睡眠异常 : {}" ,e);
+                    }
+                    //再查询一次缓存
+                    itemDetailedTo = redisCacheService.getCacheData(skuCacheKey,typeReference);
+                }
+                return itemDetailedTo;
+            } else { //bloom 觉得 不存在  一定不存在
+                log.info("{} : Bloom说不存在 , 直接返回null",skuId);
                 return null;
             }
         }
 
-        //缓存中有 返回
-        log.info("{} : 缓存命中,直接返回",skuCacheKey);
-        return cacheData;
+        //缓存存在 返回数据
+        log.info("{} : 缓存中查询到数据,返回数据" , skuCacheKey);
+        return itemDetailedTo;
     }
+
+//    /**
+//     * (没有加分布式锁)
+//     * 根据 skuId 查询数据 先看缓存 和 布隆过滤器
+//     * @param skuId
+//     * @return
+//     */
+//    @Override
+//    public ItemDetailedTo getItemDetailed(Long skuId) {
+////        stringRedisTemplate.opsForValue().setIfAbsent();
+////        stringRedisTemplate.delete();
+//        //在缓存中的key
+//        String skuCacheKey = CacheConstant.SKU_CACHE_KEY_PREFIX + skuId;
+//        //查询缓存 是否有
+//        ItemDetailedTo cacheData = redisCacheService.getCacheData(
+//                skuCacheKey,
+//                new TypeReference<ItemDetailedTo>() {
+//                });
+//
+//        if (ObjectUtils.isEmpty(cacheData)){ //查询缓存为空
+//            log.info("{} : 缓存未命中,准备访问bloom",skuCacheKey);
+//            //查询布隆 数据库是否存在 该skuId
+//            if (skuIdBloom.contains(skuId)){ //布隆 觉得skuId存在
+//                log.info("{} : bloom觉得这个skuId存在",skuId);
+//                //去数据库查询
+//                cacheData = this.getItemDetailedDb(skuId);
+//                //存入缓存
+//                redisCacheService.save(skuCacheKey,cacheData);
+//            } else { //布隆 说不存在
+//                log.info("{} : bloom觉得这个skuId不存在,直接返回null",skuId);
+//                return null;
+//            }
+//        }
+//
+//        //缓存中有 返回
+//        log.info("{} : 缓存命中,直接返回",skuCacheKey);
+//        return cacheData;
+//    }
 
     /**
      * 根据 skuId 去数据库 获取商品详细信息

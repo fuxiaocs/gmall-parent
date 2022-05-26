@@ -20,5 +20,6 @@ public class CacheConstant {
 
 
     public static final String BLOOM_SKU_ID = "bloom:skuid"; //skuid 布隆在redis中的名字
-    public static final String BLOOM_NULL = "bloom:null";
+//    public static final String BLOOM_NULL = "bloom:null";
+    public static final String LOCK_SKU_PREFIX = "lock:sku:"; // sku锁 前缀
 }
