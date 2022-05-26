@@ -1,5 +1,6 @@
 package com.atguigu.gmall.common.threadpool;
 
+import com.atguigu.gmall.common.properties.AppThreadPoolProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

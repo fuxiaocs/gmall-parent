@@ -5,5 +5,6 @@ import com.atguigu.gmall.product.annocation.ProductConfiguration;
 //@Import(AppMyBatisPlusConfiguration.class)
 //@Configuration
 @ProductConfiguration
+
 public class AppConfig {
 }

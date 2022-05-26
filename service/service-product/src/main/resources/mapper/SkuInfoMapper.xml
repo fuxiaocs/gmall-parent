@@ -64,4 +64,8 @@
         WHERE si.id = #{skuId}
         ORDER BY ssa.base_sale_attr_id,ssav.id
     </select>
+
+    <select id="selectAllSkuId" resultType="java.lang.Long">
+        select id from sku_info
+    </select>
 </mapper>

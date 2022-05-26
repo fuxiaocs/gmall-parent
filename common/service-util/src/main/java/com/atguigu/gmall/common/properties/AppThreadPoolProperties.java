@@ -1,4 +1,4 @@
-package com.atguigu.gmall.common.threadpool;
+package com.atguigu.gmall.common.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

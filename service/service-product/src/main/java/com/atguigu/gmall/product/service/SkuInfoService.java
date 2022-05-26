@@ -21,4 +21,6 @@ public interface SkuInfoService extends IService<SkuInfo> {
     BigDecimal getSkuPriceBySkuId(Long skuId);
 
     List<SpuSaleAttr> getSpuSaleAttrListBySkuId(Long skuId);
+
+    List<Long> getAllSkuId();
 }

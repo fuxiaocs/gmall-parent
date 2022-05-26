@@ -18,6 +18,8 @@ public interface SkuInfoMapper extends BaseMapper<SkuInfo> {
     BigDecimal selectSkuPriceBySkuId(@Param("skuId") Long skuId);
 
     List<SpuSaleAttr> selectSpuSaleAttrListBySkuId(@Param("skuId") Long skuId);
+
+    List<Long> selectAllSkuId();
 }
 
 

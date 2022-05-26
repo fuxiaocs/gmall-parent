@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.common.util.JSONs;
 import com.atguigu.gmall.feign.item.ItemFeignClient;
+import com.atguigu.gmall.feign.product.ProductFeignClient;
 import com.atguigu.gmall.model.product.BaseCategoryView;
 import com.atguigu.gmall.model.product.SkuInfo;
 import com.atguigu.gmall.model.product.SpuSaleAttr;
@@ -25,6 +26,9 @@ public class ItemController {
     @Autowired
     ItemFeignClient itemFeignClient;
 
+    @Autowired
+    ProductFeignClient productFeignClient;
+
     @GetMapping("/{skuId}.html")
     public String getItemPage(@PathVariable("skuId") Long skuId, Model model){
         Result<ItemDetailedTo> resultItemDetailed = itemFeignClient.getItemDetailed(skuId);
@@ -38,10 +42,6 @@ public class ItemController {
             SkuInfo skuInfo = itemDetailedTo.getSkuInfo();
             model.addAttribute("skuInfo",skuInfo);
 
-            //price
-            BigDecimal price = itemDetailedTo.getPrice();
-            model.addAttribute("price",price);
-
             //spuSaleAttrList
             List<SpuSaleAttr> spuSaleAttrList = itemDetailedTo.getSpuSaleAttrList();
             model.addAttribute("spuSaleAttrList",spuSaleAttrList);
@@ -49,6 +49,14 @@ public class ItemController {
             //valuesSkuJson
             String valuesSkuJson = itemDetailedTo.getValuesSkuJson();
             model.addAttribute("valuesSkuJson",valuesSkuJson);
+        }
+
+        //price
+        //商品价格需要实时查询
+        Result<BigDecimal> resultPrice = productFeignClient.getSkuPriceBySkuId(skuId);
+        if (resultPrice.isOk()){
+            BigDecimal price = resultPrice.getData();
+            model.addAttribute("price",price);
         }
 
         return "item/index";

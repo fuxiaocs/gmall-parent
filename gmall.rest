@@ -3,3 +3,6 @@ GET http://localhost/admin/product/getCategory1
 Accept: application/json
 
 ###
+GET http://localhost/admin/product/rebuildskuidbloom
+
+###

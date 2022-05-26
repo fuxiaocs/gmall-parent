@@ -7,6 +7,7 @@ import com.atguigu.gmall.product.service.SkuSaleAttrValueService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.atguigu.gmall.product.service.SkuInfoService;
 import com.atguigu.gmall.product.mapper.SkuInfoMapper;
+import org.redisson.api.RBloomFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     @Autowired
     SkuAttrValueService skuAttrValueService;
 
+    @Autowired
+    RBloomFilter<Object> skuIdBloom;
+
     @Transactional
     @Override
     public void saveSkuInfo(SkuInfo skuInfo) {
@@ -41,6 +45,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
 
         Long skuId = skuInfo.getId();
         Long spuId = skuInfo.getSpuId();
+
+        //向skuIdBloom中添加 新的skuId
+        skuIdBloom.add(skuId);
 
         //往sku_image表添加数据
         //封装skuId
@@ -111,6 +118,15 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     @Override
     public List<SpuSaleAttr> getSpuSaleAttrListBySkuId(Long skuId) {
         return skuInfoMapper.selectSpuSaleAttrListBySkuId(skuId);
+    }
+
+    /**
+     * 获取 所有的skuId  用于布隆
+     * @return
+     */
+    @Override
+    public List<Long> getAllSkuId() {
+        return skuInfoMapper.selectAllSkuId();
     }
 }
 
