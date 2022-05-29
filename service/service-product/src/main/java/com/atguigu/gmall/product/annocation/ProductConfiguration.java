@@ -1,9 +1,6 @@
 package com.atguigu.gmall.product.annocation;
 
-import com.atguigu.gmall.common.annotation.EnableAppRedisCache;
-import com.atguigu.gmall.common.annotation.EnableGmallGlobbalExceptionHandler;
-import com.atguigu.gmall.common.annotation.EnableGmallSwaggerApi;
-import com.atguigu.gmall.common.annotation.EnableMinIO;
+import com.atguigu.gmall.common.annotation.*;
 import com.atguigu.gmall.common.config.AppMyBatisPlusConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -14,8 +11,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+//@EnableAutoCache
+//@EnableAppRedisCache  //抽取出 gmall-cache-starter
+
 @EnableScheduling
-@EnableAppRedisCache
 @EnableGmallGlobbalExceptionHandler
 @EnableMinIO
 @EnableGmallSwaggerApi

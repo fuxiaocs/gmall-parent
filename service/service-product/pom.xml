@@ -24,6 +24,11 @@
             <artifactId>guava</artifactId>
             <version>28.0-jre</version>
         </dependency>
+        <dependency>
+            <groupId>com.atguigu</groupId>
+            <artifactId>gmall-cache-starter</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 

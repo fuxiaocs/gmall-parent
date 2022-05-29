@@ -1,13 +1,13 @@
 package com.atguigu.gmall.product.service.impl;
 
-import com.atguigu.gmall.common.cache.service.RedisCacheService;
+import com.atguigu.gmall.starter.cache.aop.annotation.Cache;
+import com.atguigu.gmall.starter.cache.service.RedisCacheService;
 import com.atguigu.gmall.common.constants.CacheConstant;
 import com.atguigu.gmall.model.product.BaseCategoryView;
 import com.atguigu.gmall.model.to.CategoryAndChild;
 import com.atguigu.gmall.product.mapper.CategoryMapper;
 import com.atguigu.gmall.product.service.CategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,19 +27,22 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryAnd
      *
      * @return
      */
+    @Cache(CacheConstant.CATEGORY_REDIS_KEY)
     @Override
     public List<CategoryAndChild> getAllCategoryAndChild() {
-        //先查 缓存
-        List<CategoryAndChild> categoryAndChildList = redisCacheService.getCacheData(CacheConstant.CATEGORY_REDIS_KEY, new TypeReference<List<CategoryAndChild>>() {
-        });
-        //判断是否有
-        if (categoryAndChildList == null) {
-            //没有 去数据库查
-            categoryAndChildList = categoryMapper.selectAllCategoryAndChild();
-            //添加进缓存
-            //可能为 null  可能有数据
-            redisCacheService.save(CacheConstant.CATEGORY_REDIS_KEY, categoryAndChildList);
-        }
+//        //先查 缓存
+//        List<CategoryAndChild> categoryAndChildList = redisCacheService.getCacheData(CacheConstant.CATEGORY_REDIS_KEY, new TypeReference<List<CategoryAndChild>>() {
+//        });
+//        //判断是否有
+//        if (categoryAndChildList == null) {
+//            //没有 去数据库查
+//            categoryAndChildList = categoryMapper.selectAllCategoryAndChild();
+//            //添加进缓存
+//            //可能为 null  可能有数据
+//            redisCacheService.save(CacheConstant.CATEGORY_REDIS_KEY, categoryAndChildList);
+//        }
+
+        List<CategoryAndChild> categoryAndChildList = categoryMapper.selectAllCategoryAndChild();
         //返回数据
         return categoryAndChildList;
     }

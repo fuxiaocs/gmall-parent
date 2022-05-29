@@ -1,5 +1,6 @@
 package com.atguigu.gmall.product.service.impl;
 
+import com.atguigu.gmall.starter.cache.aop.annotation.Cache;
 import com.atguigu.gmall.model.product.BaseCategory3;
 import com.atguigu.gmall.product.mapper.BaseCategory3Mapper;
 import com.atguigu.gmall.product.service.BaseCategory3Service;
@@ -16,6 +17,7 @@ public class BaseCategory3ServiceImpl extends ServiceImpl<BaseCategory3Mapper,Ba
     @Autowired
     private BaseCategory3Mapper baseCategory3Mapper;
 
+    @Cache("category3:#{#args[0]}")
     @Override
     public List<BaseCategory3> getCategory3ByC2Id(Long c2Id) {
         QueryWrapper<BaseCategory3> queryWrapper = new QueryWrapper<>();

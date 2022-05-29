@@ -1,6 +1,6 @@
-package com.atguigu.gmall.common.cache.redisson;
+package com.atguigu.gmall.starter.cache.redisson;
 
-import com.atguigu.gmall.common.constants.CacheConstant;
+import com.atguigu.gmall.starter.constants.CacheConstant;
 import org.redisson.Redisson;
 import org.redisson.api.RBloomFilter;
 import org.redisson.api.RedissonClient;
@@ -23,27 +23,28 @@ public class AppRedissonConfiguration {
     List<BloomTask> bloomTasks;
 
     @Bean
-    public RedissonClient redissonClient(RedisProperties redisProperties){
+    public RedissonClient redissonClient(RedisProperties redisProperties) {
         Config config = new Config();
         config.useSingleServer()
-                .setAddress("redis://"+redisProperties.getHost() + ":" + redisProperties.getPort())
+                .setAddress("redis://" + redisProperties.getHost() + ":" + redisProperties.getPort())
                 .setPassword(redisProperties.getPassword());
         RedissonClient redisson = Redisson.create(config);
         return redisson;
     }
 
     @Bean
-    public BloomTask bloomTask(){
-        return bloomFilter -> { };
+    public BloomTask bloomTask() {
+        return bloomFilter -> {
+        };
     }
 
     @Bean
-    public RBloomFilter<Object> skuIdBloom(RedissonClient redissonClient){
+    public RBloomFilter<Object> skuIdBloom(RedissonClient redissonClient) {
         RBloomFilter<Object> bloom = redissonClient.getBloomFilter(CacheConstant.BLOOM_SKU_ID);
 
-        if (!bloom.isExists()){
+        if (!bloom.isExists()) {
             for (BloomTask bloomTask : bloomTasks) {
-                if (bloomTask instanceof SkuIdBloomTask){
+                if (bloomTask instanceof SkuIdBloomTask) {
                     bloomTask.initData(bloom);
                 }
             }

@@ -1,8 +1,7 @@
 package com.atguigu.gmall.product.cron;
 
-import com.atguigu.gmall.common.cache.redisson.SkuIdBloomTask;
+import com.atguigu.gmall.starter.cache.redisson.SkuIdBloomTask;
 import com.atguigu.gmall.product.mapper.SkuInfoMapper;
-import com.atguigu.gmall.product.service.SkuInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBloomFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +48,6 @@ public class SkuIdBloomTaskImpl implements SkuIdBloomTask {
         for (Long skuId : skuIds) {
             bloomFilter.add(skuId);
         }
+        bloomFilter.add(100L);
     }
 }

@@ -1,5 +1,6 @@
 package com.atguigu.gmall.product.controller;
 
+import com.atguigu.gmall.starter.cache.aop.annotation.Cache;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.model.product.BaseCategory1;
 import com.atguigu.gmall.model.product.BaseCategory2;
@@ -28,9 +29,10 @@ public class CategoryController {
     @Autowired
     private BaseCategory3Service baseCategory3Service;
 
+
     @GetMapping("/getCategory1")
     public Result getCategory1(){
-        List<BaseCategory1> list = baseCategory1Service.list();
+        List<BaseCategory1> list = baseCategory1Service.getAllCategory1();
         return Result.ok(list);
     }
 
@@ -40,6 +42,7 @@ public class CategoryController {
         List<BaseCategory2> list = baseCategory2Service.getCategory2ByC1Id(c1Id);
         return Result.ok(list);
     }
+
 
     @GetMapping("/getCategory3/{c2Id}")
     public Result getCategory3ByC2Id(@PathVariable("c2Id") Long c2Id){
