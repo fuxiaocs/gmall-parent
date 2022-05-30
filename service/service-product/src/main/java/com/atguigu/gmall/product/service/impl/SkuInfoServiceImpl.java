@@ -1,9 +1,11 @@
 package com.atguigu.gmall.product.service.impl;
 
+import com.atguigu.gmall.common.constants.CacheConstant;
 import com.atguigu.gmall.model.product.*;
 import com.atguigu.gmall.product.service.SkuAttrValueService;
 import com.atguigu.gmall.product.service.SkuImageService;
 import com.atguigu.gmall.product.service.SkuSaleAttrValueService;
+import com.atguigu.gmall.starter.cache.aop.AspectHelper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.atguigu.gmall.product.service.SkuInfoService;
 import com.atguigu.gmall.product.mapper.SkuInfoMapper;
@@ -36,6 +38,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
 
     @Autowired
     RBloomFilter<Object> skuIdBloom;
+
+    @Autowired
+    AspectHelper aspectHelper;
 
     @Transactional
     @Override
@@ -87,6 +92,8 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         skuInfo.setIsSale(status);
         skuInfoMapper.updateById(skuInfo);
 
+        // 缓存 使用 延迟双删
+        aspectHelper.deleteCache(CacheConstant.SKU_CACHE_KEY_PREFIX + skuId);
         //todo 给ES ,保存/删除数据
     }
 

@@ -2,6 +2,7 @@ package com.atguigu.gmall.starter.cache.aop;
 
 import com.atguigu.gmall.starter.cache.aop.annotation.Cache;
 import com.atguigu.gmall.starter.cache.service.RedisCacheService;
+import com.atguigu.gmall.starter.constants.CacheConstant;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,6 +13,7 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -22,6 +24,10 @@ import org.springframework.util.StringUtils;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
@@ -41,6 +47,12 @@ public class AspectHelper {
 
     @Autowired
     RedissonClient redissonClient;
+
+    @Autowired
+    ScheduledThreadPoolExecutor scheduledThreadPool;
+
+    @Autowired
+    StringRedisTemplate redisTemplate;
 
     public Object getCacheData(String cacheKey, ProceedingJoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -141,5 +153,17 @@ public class AspectHelper {
         context.setVariable("args",joinPoint.getArgs());
 
         return expression.getValue(context, clazz);
+    }
+
+    /**
+     * 缓存 延迟双删
+     * @param skuId
+     */
+    public void deleteCache(String skuId) {
+        redisTemplate.delete(skuId);
+
+        scheduledThreadPool.schedule(()->{
+            redisTemplate.delete(skuId);
+        },10, TimeUnit.SECONDS);
     }
 }

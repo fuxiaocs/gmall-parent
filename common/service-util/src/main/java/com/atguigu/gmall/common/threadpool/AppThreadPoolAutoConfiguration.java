@@ -7,9 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @EnableConfigurationProperties(AppThreadPoolProperties.class)
@@ -44,7 +42,7 @@ public class AppThreadPoolAutoConfiguration {
                 threadProperties.getKeepAliveTime(),
                 threadProperties.getTimeUnit(),
                 new LinkedBlockingQueue<>(threadProperties.getQueueSize()/2),
-                new AppThreadFactory(appName + "-core"),
+                new AppThreadFactory(appName + "-other"),
                 threadProperties.getHandler()
         );
 
