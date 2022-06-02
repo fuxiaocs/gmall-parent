@@ -15,4 +15,10 @@
         id,attr_id,value_id,
         sku_id
     </sql>
+    <select id="getAttrNameAndValueBySkuId" resultType="com.atguigu.gmall.model.list.SearchAttr">
+        SELECT bai.`id` attr_id,bai.`attr_name` attrName,bav.`value_name` attrValue FROM sku_attr_value sav
+        LEFT JOIN base_attr_info bai ON sav.`attr_id` = bai.`id`
+        LEFT JOIN base_attr_value bav ON sav.`value_id` = bav.`id`
+        WHERE sav.`sku_id` = #{skuId}
+    </select>
 </mapper>

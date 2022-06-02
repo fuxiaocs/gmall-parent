@@ -1,0 +1,63 @@
+### 对索引的操作
+### 查询 所有index
+GET http://192.168.60.130:9200/_cat/indices
+
+### 查询指定索引
+GET http://192.168.60.130:9200/abc
+
+### 添加 索引
+PUT http://192.168.60.130:9200/aaa
+
+### 删除索引
+DELETE http://192.168.60.130:9200/aaa
+
+### 对文档操作
+###  添加数据 指定id
+POST http://192.168.60.130:9200/aaa/_doc/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "fuxiao",
+  "age": 18
+}
+
+### 查询 索引全部数据
+GET http://192.168.60.130:9200/aaa/_search
+
+### 删除 文档
+DELETE http://192.168.60.130:9200/aaa/_doc/1
+
+### 查询指定文档
+GET http://192.168.60.130:9200/aaa/_doc/1
+
+### 复杂 查询 DSL
+GET http://192.168.60.130:9200/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": {
+      "name": "fuxiao"
+    }
+  }
+}
+
+###
+
+GET http://192.168.60.130:9200/_search
+Content-Type: application/json
+
+{
+  "query": {
+    "match": {
+      "name": "fuxiao"
+    }
+  },
+  "_source": ["age","id"],
+  "fields": [
+    "id","name"
+  ]
+}
+
+###

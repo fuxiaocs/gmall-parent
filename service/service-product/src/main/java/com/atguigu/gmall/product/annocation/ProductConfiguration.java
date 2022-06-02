@@ -2,6 +2,7 @@ package com.atguigu.gmall.product.annocation;
 
 import com.atguigu.gmall.common.annotation.*;
 import com.atguigu.gmall.common.config.AppMyBatisPlusConfiguration;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -14,6 +15,7 @@ import java.lang.annotation.Target;
 //@EnableAutoCache
 //@EnableAppRedisCache  //抽取出 gmall-cache-starter
 
+@EnableFeignClients("com.atguigu.gmall.feign.list")
 @EnableScheduling
 @EnableGmallGlobbalExceptionHandler
 @EnableMinIO

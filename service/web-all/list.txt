@@ -1,0 +1,36 @@
+searchParam.keyword
+searchParam.trademark
+searchParam.order
+searchParam.props
+
+propsParamList
+        attrName
+        attrValue
+        attrId
+
+trademarkParam
+
+urlParam
+
+trademarkList
+        tmId
+        tmName
+        tmLogoUrl
+
+
+attrsList
+        attrId
+        attrName
+        attrValueList
+
+orderMap.type
+orderMap.sort
+
+goodsList
+        defaultImg
+        price
+        title
+
+pageNo
+
+totalPages

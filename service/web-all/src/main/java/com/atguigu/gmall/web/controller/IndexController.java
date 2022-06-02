@@ -17,7 +17,7 @@ public class IndexController {
     @Autowired
     ProductFeignClient productFeignClient;
 
-    @GetMapping("/")
+    @GetMapping({"/","/index.html"})
     public String getIndexPage(Model model){
         Result<List<CategoryAndChild>> result = productFeignClient.getAllCategoryAndChild();
         if (result.isOk()){
