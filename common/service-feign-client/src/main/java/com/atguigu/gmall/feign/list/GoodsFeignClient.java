@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.*;
 public interface GoodsFeignClient {
 
 
-    @PostMapping("/goods")
+    @PostMapping("/goods/save")
     Result saveGoods(@RequestBody Goods goods);
 
     @DeleteMapping("/goods/{skuId}")
     Result deleteGoods(@PathVariable("skuId") Long skuId);
 
-    @GetMapping("/goods")
+    @PostMapping("/goods/search")
     Result<GoodsSearchResultVo> searchGoods(@RequestBody SearchParam param);
+
+    @PutMapping("/goods/updateScore/{skuId}")
+    Result updateScoreBySkuId(@PathVariable("skuId") Long skuId,
+                            @RequestParam("score") Long score);
 }

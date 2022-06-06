@@ -15,7 +15,7 @@ public class RpcGoodsController {
     @Autowired
     GoodsEsService goodsEsService;
 
-    @PostMapping("/goods")
+    @PostMapping("/goods/save")
     public Result saveGoods(@RequestBody Goods goods){
 
         goodsEsService.saveGoods(goods);
@@ -33,11 +33,18 @@ public class RpcGoodsController {
     }
 
 
-    @GetMapping("/goods")
+    @PostMapping("/goods/search")
     public Result<GoodsSearchResultVo> searchGoods(@RequestBody SearchParam param){
 
         GoodsSearchResultVo goodsVo = goodsEsService.searchGoods(param);
 
         return Result.ok(goodsVo);
+    }
+
+    @PutMapping("/goods/updateScore/{skuId}")
+    public Result updateScoreBySkuId(@PathVariable("skuId") Long skuId,
+                            @RequestParam("score") Long score){
+        goodsEsService.updateHotScore(skuId,score);
+        return Result.ok();
     }
 }

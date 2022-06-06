@@ -17,7 +17,7 @@ public class ListController {
     @Autowired
     GoodsFeignClient goodsFeignClient;
 
-    @GetMapping("list.html")
+    @GetMapping("/list.html")
     public String getListPage(SearchParam param, Model model){
 
         Result<GoodsSearchResultVo> goodsVoResult = goodsFeignClient.searchGoods(param);

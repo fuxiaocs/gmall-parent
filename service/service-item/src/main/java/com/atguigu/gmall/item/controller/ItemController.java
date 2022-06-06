@@ -25,6 +25,9 @@ public class ItemController {
     public Result getItemDetailed(@PathVariable("skuId") Long skuId){
 
         ItemDetailedTo itemDetailedTo = itemService.getItemDetailed(skuId);
+
+        itemService.updateHotScore(skuId);
+
         return Result.ok(itemDetailedTo);
     }
 }

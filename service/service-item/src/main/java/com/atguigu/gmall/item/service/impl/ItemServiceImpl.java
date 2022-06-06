@@ -1,5 +1,6 @@
 package com.atguigu.gmall.item.service.impl;
 
+import com.atguigu.gmall.feign.list.GoodsFeignClient;
 import com.atguigu.gmall.starter.cache.aop.annotation.Cache;
 import com.atguigu.gmall.starter.cache.service.RedisCacheService;
 import com.atguigu.gmall.common.constants.CacheConstant;
@@ -47,6 +48,9 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     RedissonClient redissonClient;
 
+    @Autowired
+    GoodsFeignClient goodsFeignClient;
+
     /**
      * 根据 skuId 获取 商品详情信息  (先看缓存 和 布隆过滤器  +  redisson锁) 整合切面
      * @param skuId
@@ -59,6 +63,18 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDetailedTo getItemDetailed(Long skuId) {
         return this.getItemDetailedDb(skuId);
+    }
+
+    /**
+     * 修改 商品热度
+     * @param skuId
+     */
+    @Override
+    public void updateHotScore(Long skuId) {
+        Double score = stringRedisTemplate.opsForZSet().incrementScore(CacheConstant.SKU_HOTSCORE, skuId.toString(), 1.0);
+        if (score % 5 == 0) {
+            goodsFeignClient.updateScoreBySkuId(skuId,score.longValue());
+        }
     }
 
 //    /**
