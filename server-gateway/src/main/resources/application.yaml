@@ -17,7 +17,29 @@ spring:
           uri: lb://service-product
           predicates:
             - Path=/admin/product/**
+
+        - id: user_route
+          uri: lb://service-user
+          predicates:
+            - Path=/api/user/**
+
         - id: web_route
           uri: lb://web-all
           predicates:
             - Host=**.gmall.com,gmall.com
+  redis:
+    host: 192.168.60.130
+    password: Wyj123!@!
+
+app:
+  auth:
+    anyoneurls:
+      - /js/**
+      - /css/**
+      - /static/**
+      - /img/**
+    unanyoneurls:
+      - /rpc/inner/**
+    authurls:
+      - /order/**
+    loginpage: http://passport.gmall.com/login.html
