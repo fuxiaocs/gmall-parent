@@ -9,12 +9,15 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Data
 @ApiModel(description = "购物车")
-public class CartInfo extends BaseEntity {
+public class CartItemInfo {
     private static final long serialVersionUID = 1L;
+
+    private String id;
 
     @ApiModelProperty(value = "用户id")
     @TableField("user_id")
@@ -34,7 +37,7 @@ public class CartInfo extends BaseEntity {
 
     @ApiModelProperty(value = "图片文件")
     @TableField("img_url")
-    private String imgUrl;
+    private String skuDefaultImg;
 
     @ApiModelProperty(value = "sku名称 (冗余)")
     @TableField("sku_name")
@@ -46,19 +49,19 @@ public class CartInfo extends BaseEntity {
 
     //  ,fill = FieldFill.INSERT
     @TableField(value = "create_time")
-    private Timestamp createTime;
+    private Date createTime;
 
     //  ,fill = FieldFill.INSERT_UPDATE)
     @TableField(value = "update_time")
-    private Timestamp updateTime;
+    private Date updateTime;
 
     // 实时价格 skuInfo.price
     @TableField(exist = false)
     BigDecimal skuPrice;
 
     //  优惠券信息列表
-    @ApiModelProperty(value = "购物项对应的优惠券信息")
-    @TableField(exist = false)
-    private List<CouponInfo> couponInfoList;
+//    @ApiModelProperty(value = "购物项对应的优惠券信息")
+//    @TableField(exist = false)
+//    private List<CouponInfo> couponInfoList;
 
 }

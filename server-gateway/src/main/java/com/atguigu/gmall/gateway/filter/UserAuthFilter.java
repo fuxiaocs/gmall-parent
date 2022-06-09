@@ -109,7 +109,24 @@ public class UserAuthFilter implements GlobalFilter {
         }
 
         //普通请求没有token  放行
-        return chain.filter(exchange);
+        //没带token 只透传 UserTempId
+        return chain.filter(mutateExchange(exchange));
+    }
+
+    /**
+     * 没带token  只透传 UserTempId
+     * @param exchange
+     * @return
+     */
+    private ServerWebExchange mutateExchange(ServerWebExchange exchange) {
+
+        return exchange.mutate()
+                .request(exchange.getRequest()
+                        .mutate()
+                        .header("UserTempId", getUserTempId(exchange))
+                        .build())
+                .response(exchange.getResponse())
+                .build();
     }
 
     /**
@@ -127,10 +144,12 @@ public class UserAuthFilter implements GlobalFilter {
                 }
         );
 
+        String userTempId = getUserTempId(exchange);
         //克隆的 请求对象
         ServerHttpRequest newRequest = exchange.getRequest()
                 .mutate()
-                .header("userId",userInfo.getId().toString())
+                .header("UserId",userInfo.getId().toString())
+                .header("UserTempId",userTempId)
                 .build();
 //        newRequest.getHeaders().add("userId",userInfo.getId().toString()); //错误的 不能使用
 
@@ -140,6 +159,31 @@ public class UserAuthFilter implements GlobalFilter {
                 .request(newRequest)
                 .response(exchange.getResponse())
                 .build();
+    }
+
+    /**
+     * 获取 临时购物车Id
+     * @param exchange
+     * @return
+     */
+    private String getUserTempId(ServerWebExchange exchange) {
+        ServerHttpRequest request = exchange.getRequest();
+        MultiValueMap<String, HttpCookie> cookies = request.getCookies();
+        String userTempId = null;
+        if (cookies != null) {
+            HttpCookie userTempIdCookie = cookies.getFirst("userTempId");
+            if (userTempIdCookie != null) {
+                userTempId = userTempIdCookie.getValue();
+            } else {
+                userTempId = request.getHeaders().getFirst("userTempId");
+            }
+        }
+
+        if (StringUtils.isEmpty(userTempId)) {
+            return null;
+        }
+
+        return userTempId;
     }
 
     /**

@@ -25,4 +25,5 @@ public class CacheConstant {
     public static final String LOCK_PREFIX = "lock"; //锁前缀 + 缓存键
     public static final String SKU_HOTSCORE = "sku:hotscore"; //热度分
     public static final String LOGIN_USER_INFO = "login:userInfo:";
+    public static final String CART_KEY_PREFIX = "cart:skuInfo:";
 }
