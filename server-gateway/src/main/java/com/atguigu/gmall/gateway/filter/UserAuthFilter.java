@@ -222,6 +222,10 @@ public class UserAuthFilter implements GlobalFilter {
             }
         }
 
+        //可能会取到 "" 空字符
+        if (StringUtils.isEmpty(token)) {
+            return null;
+        }
 //        if (StringUtils.isEmpty(token)) { //从cookie和请求头中都取不出 token
 //            return null;
 //        }
