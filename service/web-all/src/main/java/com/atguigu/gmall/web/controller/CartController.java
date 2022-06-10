@@ -35,7 +35,13 @@ public class CartController {
     @GetMapping("/cart.html")
     public String toCartPage(){
 
+        return "cart/index";
+    }
 
+    ///cart/deleteChecked
+    @GetMapping("/cart/deleteChecked")
+    public String deleteChecked(){
+        cartFeignClient.deleteChecked();
         return "cart/index";
     }
 }

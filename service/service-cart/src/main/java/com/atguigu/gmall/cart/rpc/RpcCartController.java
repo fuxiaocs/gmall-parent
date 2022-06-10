@@ -23,4 +23,10 @@ public class RpcCartController {
 
         return Result.ok(cartItemInfo);
     }
+
+    @GetMapping("/deleteChecked")
+    public Result deleteChecked(){
+        cartService.deleteChecked();
+        return Result.ok();
+    }
 }

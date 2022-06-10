@@ -57,7 +57,7 @@ public class CartItemInfo {
 
     // 实时价格 skuInfo.price
     @TableField(exist = false)
-    BigDecimal skuPrice;
+    private BigDecimal skuPrice;
 
     //  优惠券信息列表
 //    @ApiModelProperty(value = "购物项对应的优惠券信息")
